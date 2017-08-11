@@ -6,11 +6,13 @@ const REQUIRED = '{PATH} is required!'
 let userSchema = new mongoose.Schema({
   email: { type: String, required: REQUIRED, unique: true },
   password: { type: String, required: REQUIRED },
-  salt: String,
   name: { type: String, required: REQUIRED },
-  age: Number,
+  salt: String,
+  age: { type: Number, min: 18, max: 120 },
   location: String,
-  roles: [String]
+  gender: { type: String, enum: ['Male', 'Female', 'Other'], default: 'Other' },
+  interested: { type: String, enum: ['Male', 'Female', 'All'], default: 'All' },
+  role: { type: String, enum: ['User', 'Admin'], default: 'User' }
 })
 
 userSchema.method({
@@ -35,7 +37,7 @@ module.exports.seedAdminUser = () => {
       name: 'Admin',
       salt: salt,
       password: hashedPass,
-      roles: ['Admin']
+      role: 'Admin'
     })
   })
 }
