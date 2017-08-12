@@ -1,6 +1,7 @@
 const express = require('express')
 const passport = require('passport')
 const Validator = require('../utilities/validator')
+const authCheck = require('../auth/middleware/auth-check')
 
 const router = new express.Router()
 
@@ -29,7 +30,7 @@ router.post('/register', (req, res, next) => {
   })(req, res, next)
 })
 
-router.post('/profile', (req, res) => {
+router.post('/profile', authCheck, (req, res) => {
   const user = req.user
   const updated = req.body
 
