@@ -1,6 +1,7 @@
 const express = require('express')
 // const Validator = require('../utilities/validator')
 const Match = require('../data/Match')
+const User = require('../data/User')
 const authCheck = require('../auth/middleware/auth-check')
 
 const router = new express.Router()
@@ -18,6 +19,35 @@ router.get('/mine', authCheck, (req, res) => {
   .catch(err => {
     res.status(200).json(err)
   })
+})
+
+router.post('/:id', authCheck, (req, res) => {
+  const user = req.user
+  const id = req.params.id
+  console.log(id)
+
+  User.findById(id)
+    .then(dbUser => {
+      console.log(dbUser)
+      if (!dbUser || user.email === dbUser.email) {
+        res.json({error: 'Error'}) // TODO: Proper error message
+      }
+
+      Match.create({
+        user1: {
+          user: user._id
+        },
+        user2: {
+          user: dbUser._id
+        }
+      })
+      .then(match => {
+        res.json(match)
+      })
+    })
+    .catch(err => {
+      res.status(200).json(err)
+    })
 })
 
 module.exports = router
