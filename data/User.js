@@ -12,7 +12,7 @@ let userSchema = new mongoose.Schema({
   location: String,
   gender: { type: String, enum: ['Male', 'Female', 'Other'], default: 'Other' },
   interested: { type: String, enum: ['Male', 'Female', 'All'], default: 'All' },
-  role: { type: String, enum: ['User', 'Admin'], default: 'User' }
+  role: { type: String, enum: ['User', 'Admin', 'Blocked'], default: 'User' }
 })
 
 userSchema.method({
