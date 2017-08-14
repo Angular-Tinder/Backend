@@ -21,6 +21,8 @@ userSchema.method({
   }
 })
 
+userSchema.index({email: 'text', name: 'text'})
+
 let User = mongoose.model('User', userSchema)
 
 module.exports = User
