@@ -40,7 +40,7 @@ router.post('/:id/send', authCheck, (req, res) => {
 
   Match.findById(id)
   .populate('user1.user')
-  .populate('user1.user')
+  .populate('user2.user')
   // .populate({path: 'messages', populate: {path: 'from'}})
   .then(match => {
     if (!match) {
@@ -61,7 +61,12 @@ router.post('/:id/send', authCheck, (req, res) => {
       match.messages.push(message._id)
 
       match.save().then(updated => {
-        res.json(updated)
+        Match.populate(updated, {path: 'messages', populate: {path: 'from'}}).then(populated => {
+          res.json(populated.messages)
+        })
+        .catch(err => {
+          res.json({success: false, message: err.message})
+        })
       })
       .catch(err => {
         res.json({success: false, message: err.message})
@@ -75,3 +80,5 @@ router.post('/:id/send', authCheck, (req, res) => {
     res.json({success: false, message: err.message})
   })
 })
+
+module.exports = router
