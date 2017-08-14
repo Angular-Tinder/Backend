@@ -7,12 +7,12 @@ let matchSchema = new mongoose.Schema({
   user1: {
     user: { type: Types.ObjectId, ref: 'User', required: REQUIRED },
     unread: { type: Boolean, default: false },
-    active: { type: Boolean, default: true }
+    active: { type: Boolean, default: false }
   },
   user2: {
     user: { type: Types.ObjectId, ref: 'User', required: REQUIRED },
     unread: { type: Boolean, default: false },
-    active: { type: Boolean, default: true }
+    active: { type: Boolean, default: false }
   },
   messages: [{ type: Types.ObjectId, ref: 'Message' }],
   timestamp: {type: Date, default: Date.now}
